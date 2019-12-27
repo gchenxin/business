@@ -83,7 +83,7 @@ class UserPriv extends Model
                 return $items['childNode'][$pid]['oper'];
             }
         }
-        return $privList;
+        return array_merge($privList);
     }
 
     public function setManagerGroup(Int $uid,$gid){

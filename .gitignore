@@ -5,6 +5,8 @@
 /resources/
 /tests/
 /vendor/
+/app/Http/Kernel.php
+/config/logic.php
 .env
 .env.backup
 .phpunit.result.cache
