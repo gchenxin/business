@@ -76,7 +76,7 @@ class UserPriv extends Model
         }
         //过滤无子菜单的一级菜单
         foreach($privList as $key=>$items){
-            if(!$items || count($items['childNode']) == 0){
+            if(!$items || empty($items['childNode'])){
                 unset($privList[$key]);
             }
             if($pid && $items && isset($items['childNode'][$pid])){
