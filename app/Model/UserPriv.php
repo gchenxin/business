@@ -76,12 +76,14 @@ class UserPriv extends Model
         }
         //过滤无子菜单的一级菜单
         foreach($privList as $key=>$items){
-            if(!$items || empty($items['childNode'])){
-                unset($privList[$key]);
-            }
             if($pid && $items && isset($items['childNode'][$pid])){
                 return $items['childNode'][$pid]['oper'];
             }
+            if(!$items || empty($items['childNode'])){
+                unset($privList[$key]);
+                continue;
+            }
+            $privList[$key]['childNode'] = array_values($items['childNode']);
         }
         return array_merge($privList);
     }
