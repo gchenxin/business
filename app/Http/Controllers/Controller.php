@@ -30,7 +30,7 @@ class Controller extends BaseController
         if(empty($this->uid)){
             $this->uid = $request->route('uid');
         }
-        if($this->route != "checkLogin" && $this->route != 'loginOut'){
+        if($this->route != "checkLogin" && $this->route != 'logout'){
             $this->init();
         }
     }
