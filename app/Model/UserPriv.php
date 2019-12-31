@@ -21,9 +21,9 @@ class UserPriv extends Model
             if(!empty($item['pid'])){
                 if($item['parentid']){
                     //查询上级信息
-                    $parentInfo = Privilege::getPrivInfo($item['parentid']);
-                    if(!$parentInfo)    continue;
-                    if(!isset($privList[$parentInfo->id])){
+                    if(!isset($privList[$item['parentid']])){
+                        $parentInfo = Privilege::getPrivInfo($item['parentid']);
+                        if(!$parentInfo)    continue;
                         $privList[$parentInfo->id] = [
                             "id"=> $parentInfo->id,
                             "name" => $parentInfo->name,
@@ -43,13 +43,15 @@ class UserPriv extends Model
                     if($item['parentid']){
                         $temp =& $privList[$item['parentid']]['childNode'];
                     }
-                    $temp[$item['pid']] = [
-                        "id"=>$item['pid'],
-                        "name" => $item['name'],
-                        "link" => $item['link'],
-                        'icon' => $item['icon'],
-                        "oper" => $item['oper']
-                    ];
+                    if(!isset($temp[$item['pid']])){
+                        $temp[$item['pid']] = [
+                            "id"=>$item['pid'],
+                            "name" => $item['name'],
+                            "link" => $item['link'],
+                            'icon' => $item['icon'],
+                            "oper" => $item['oper']
+                        ];
+                    }
                 }
             }elseif(!empty($item['gid'])){
                 $privJson = json_decode($item['gourppriv'], true);
@@ -98,5 +100,30 @@ class UserPriv extends Model
             ];
         }
         return $this->setTable($this->_table)->insert($param);
+    }
+
+    /**
+     * 为管理员授权
+     * @param Int $mId
+     * @param array $privilege
+     */
+    public function grantPrivToManager(Int $mId, Array $privilege){
+        $privilegeList = $this->getPrivById($mId);
+        $grantList = Privilege::getPrivInfoByIds($privilege);
+    }
+
+    public function modifyGroupForManager($mid, $gid){
+        //删除用户管理组
+        $this->setTable($this->_table)->where('userid', $mid)->where('gid','!=','')->delete();
+        $gidList = explode(',', $gid);
+        $param = [];
+        foreach ($gidList as $item) {
+            $param[] = [
+                'userid'    =>  $mid,
+                'gid'   =>  $item,
+                'state' =>  1
+            ];
+        }
+        self::insert($param);
     }
 }

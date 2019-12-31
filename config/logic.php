@@ -10,7 +10,8 @@ return [
     'loginFailedTime'   => 5,
 
     'allow_origin'  =>  [
-        'http://web.com'
+        'http://web.com',
+        'http://www.gs.text:8081'
     ],
     'apiServerHostDebug' => 'http://test.fangruyu.net',
     'apiServerHostRelease' => 'https://fruyu.com',

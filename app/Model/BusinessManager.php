@@ -60,10 +60,9 @@ class BusinessManager extends Model
         return $managerList;
     }
 
-    public static function getManageStore($mid){
+    public static function getManageInfo($mid){
         $zjComId = ZjCom::$zjcom;
         $info = self::where(['bm.zjcom'=>$zjComId,'userid'=>$mid])
-            ->select('bm.storeId')
             ->first()->toArray();
         return $info;
     }

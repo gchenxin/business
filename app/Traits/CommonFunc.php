@@ -5,7 +5,7 @@ namespace App\Traits;
 trait CommonFunc{
 
     /**
-     * 返回不需要验证的接口列表
+     * 返回权限树形列表
      * @return array
      */
     public function treeNodeGenerator(array $data){

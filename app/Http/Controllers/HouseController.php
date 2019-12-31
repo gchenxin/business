@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\BusinessManager;
+use App\Model\House;
 use App\Model\ZjCom;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,9 +31,39 @@ class HouseController extends Controller
         $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
         $zjcom = ZjCom::$zjcom;
         $areas = join(',',BusinessManager::getManageArea($this->uid));
-        $info = BusinessManager::getManageStore($this->uid);
+        $info = BusinessManager::getManageInfo($this->uid);
         $houseScanInfo = DB::select("call houseFlowToDay('{$areas}',{$zjcom},'{$info['storeId']}','{$this->type}',{$page},{$pageSize})");
 
         return $houseScanInfo;
+    }
+
+    public function getDayReport(){
+        if(empty($this->type)){
+            self::exception(Response::INVALID_PARAMS);
+        }
+        $page = empty($this->page) ? 1 : $this->page;
+        $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
+        $zjcom = ZjCom::$zjcom;
+        $areas = join(',',BusinessManager::getManageArea($this->uid));
+        $info = BusinessManager::getManageInfo($this->uid);
+        $houseDayReport = DB::select("call houseDayReport('{$this->type}','{$info['storeId']}','{$areas}',{$zjcom},{$page},{$pageSize})");
+
+        return $houseDayReport;
+    }
+
+
+    public function getHouseList(House $houseModel, $type){
+        if(!in_array($type, ['sale', 'zu', 'sp', 'xzl', 'cf'])){
+            self::exception(Response::INVALID_PARAMS);
+        }
+        $keyword = empty($this->keyword) ? '' : $this->keyword;
+        $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
+        $areas = BusinessManager::getManageArea($this->uid);
+        $storeId = "";
+        if(ZjCom::$isManager){
+            $info = BusinessManager::getManageInfo($this->uid);
+            $storeId = $info['storeId'];
+        }
+        return $houseModel->getHouseList($type,$pageSize,$keyword,$areas,$storeId);
     }
 }

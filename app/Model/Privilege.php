@@ -21,12 +21,16 @@ class Privilege extends Model
         return self::where('id', $pid)->first();
     }
 
+    public static function getPrivInfoByIds(Array $ids){
+        return self::whereIn('id', $ids)->get()->toArray();
+    }
+
     public static function getPidByName($link){
         return self::where("link",$link)->value('id');
     }
 
     public static function getPrivList(){
-        $list = self::where(['isOpen'=>1,'isNav'=>1])->get()->toArray();
+        $list = self::where(['isOpen'=>1,'isNav'=>1])->orderBy('parentid')->get()->toArray();
         foreach($list as  &$value) {
             $value['operDesc'] = "";
             foreach (self::$operation as $key => $item) {

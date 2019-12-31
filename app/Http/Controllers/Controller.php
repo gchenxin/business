@@ -9,6 +9,7 @@ use App\Traits\ErrorTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Exceptions\NoPermissionException;
@@ -18,7 +19,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, AuthorizeApiExcept, CommonFunc, ErrorTrait;
 
-    public function __construct($request){
+    public function __construct(Request $request){
         $this->isAjax = $request->ajax();
         $this->route = (explode('/',Route::current()->uri()))[0];
         $this->method = $request->getMethod();
@@ -42,7 +43,7 @@ class Controller extends BaseController
     public function init(){
         if(!empty($this->uid)){
             //验证登录信息是否有效
-//            app('App\Model\LoginRecord')->checkKeepLogin($this->uid, $this->clientIp);
+            app('App\Model\LoginRecord')->checkKeepLogin($this->uid, $this->clientIp);
             //验证是否是合格的商户权限
             $isBusinessAdmin = app('App\Model\ZjCom')->checkBusiness($this->uid);
             if($isBusinessAdmin != Response::API_SUCCESS){
@@ -53,9 +54,7 @@ class Controller extends BaseController
                 return ;
             }
             //验证用户权限
-            if($this->route == "userPriv"){
-                $this->privList = app('App\Model\UserPriv')->getPrivById($this->uid);
-            }else{
+            if($this->route != "userPriv"){
                 $privId = app('App\Model\Privilege')->getPidByName($this->route);
                 $this->hasPermission = app('App\Model\UserPriv')->getPrivById($this->uid,$privId);
                 //验证接口具体操作
@@ -88,5 +87,10 @@ class Controller extends BaseController
         if(ZjCom::$isManager){
             self::exception(Response::ONLY_MAINADMIN);
         }
+    }
+
+    public function test(){
+        $areaInfo = $this->getItem('App\Model\BusinessManager',5);
+        return $areaInfo;
     }
 }

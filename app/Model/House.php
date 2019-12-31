@@ -2,11 +2,14 @@
 
 namespace App\Model;
 
+use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
+    use ModelTrait;
     public $timestamps = false;
+    protected $table = "house_";
 
     public function areaHouseSqlGenerator(Int $uid): String{
         $addrIds = BusinessManager::getManageArea($uid);
@@ -40,4 +43,14 @@ where addrid in ({$addrIds})
 EOT;
         return $subsql;
     }
+
+    public function getHouseList(String $type,Int $pageSize,String $keyword,Array $areas,String $storeId): ?Array{
+        $this->table .= $type . " as s";
+        $list = $this->setTable($this->table)->join("house_zjuser as zj",'zj.id','s.userid');
+        self::generateSearch($list, $keyword, ['s.title','s.community','s.address']);
+        self::setAddrAndStore($list,['zj.storeId'=>explode(',', $storeId),'s.addrid'=>$areas]);
+        $list = $list->orderBy('s.pubdate', 'desc')->paginate($pageSize)->toArray();
+        return $list;
+    }
+
 }

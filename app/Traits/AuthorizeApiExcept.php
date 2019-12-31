@@ -10,12 +10,10 @@ trait AuthorizeApiExcept{
      */
     public function getNoAuthApi(){
         return [
-            'manager',
-//            'privList',
-//            'groupList',
-//            'managerPriv',
+            'test',
             'city',
-            'user'
+            'user',
+            'house'
         ];
     }
 }
