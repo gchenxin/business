@@ -63,7 +63,10 @@ class BusinessManager extends Model
     public static function getManageInfo($mid){
         $zjComId = ZjCom::$zjcom;
         $info = self::where(['bm.zjcom'=>$zjComId,'userid'=>$mid])
-            ->first()->toArray();
+            ->first();
+		if($info) $info = $info->toArray();
+		elseif (!$info && !ZjCom::$isManager) $info = ['storeId'=>$zjComId];
+		else $info = ["storeId"=>0];
         return $info;
     }
 

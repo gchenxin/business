@@ -21,9 +21,9 @@ class SystemController extends Controller
 
     public static $apiAccess = [
         1 => "getManagerPrivilege,getManagerList,getPrivList,getGroupList",
-        2 => 'update',
-        4 => 'addManager',
-        8 => 'delete'
+        2 => 'modifyGroup,modifyManager',
+        4 => 'addManager,addGroup',
+        8 => 'deleteGroup,deleteManager'
     ];
     public function __construct(Request $request)
     {

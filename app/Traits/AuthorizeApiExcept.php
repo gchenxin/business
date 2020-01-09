@@ -10,10 +10,8 @@ trait AuthorizeApiExcept{
      */
     public function getNoAuthApi(){
         return [
-            'test',
             'city',
-            'user',
-            'house'
+            'user'
         ];
     }
 }

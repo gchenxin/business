@@ -12,7 +12,7 @@ class MemberController extends Controller
 {
     use SendRequest;
     public static $apiAccess = [
-        1 => "getStoreList",
+        1 => "getStoreList,getUserPrivList,getLocalZjList",
         2 => 'update',
         4 => 'add',
         8 => 'delete'

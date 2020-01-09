@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class HouseController extends Controller
 {
     public static $apiAccess = [
-        1 => "getHouseFlow",
+        1 => "getHouseFlow,getDayReport",
         2 => 'update',
         4 => 'add',
         8 => 'delete'
@@ -58,7 +58,7 @@ class HouseController extends Controller
         }
         $keyword = empty($this->keyword) ? '' : $this->keyword;
         $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
-        $areas = BusinessManager::getManageArea($this->uid);
+     2   $areas = BusinessManager::getManageArea($this->uid);
         $storeId = "";
         if(ZjCom::$isManager){
             $info = BusinessManager::getManageInfo($this->uid);
