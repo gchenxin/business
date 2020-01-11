@@ -58,7 +58,7 @@ class HouseController extends Controller
         }
         $keyword = empty($this->keyword) ? '' : $this->keyword;
         $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
-     2   $areas = BusinessManager::getManageArea($this->uid);
+        $areas = BusinessManager::getManageArea($this->uid);
         $storeId = "";
         if(ZjCom::$isManager){
             $info = BusinessManager::getManageInfo($this->uid);

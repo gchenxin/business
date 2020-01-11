@@ -41,7 +41,7 @@ class MemberController extends Controller
 
     public function getLocalZjList(ZjUser $zjUserModel){
         $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
-        $keyword = empty($this->param['keyword']) ? $this->param['keyword'] : '';
+        $keyword = empty($this->keyword) ? $this->keyword : '';
         //查询区域内的经纪人列表
         return $zjUserModel->getZjListByManagerId((Int)$this->uid, (Int)$pageSize, $keyword);
     }

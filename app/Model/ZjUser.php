@@ -17,7 +17,7 @@ class ZjUser extends Model
      * 查询管理员区域下的经纪人列表
      * @param $mid
      */
-    public function getZjListByManagerId(Int $uid,Int $pageSize, String $keyword = ''): ?Array{
+    public function getZjListByManagerId(Int $uid,Int $pageSize, ?String $keyword = ''): ?Array{
         $addrIds = BusinessManager::getManageArea($uid);
         $storeInfo = BusinessManager::getManageInfo($uid);
         $orderBy = "zj.pubdate";
