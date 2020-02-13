@@ -113,11 +113,13 @@ class SystemController extends Controller
         if(empty($this->mId) || (empty($this->addrId) && empty($this->storeId)) || empty($this->gId)){
             self::exception(Response::INVALID_PARAMS);
         }
-        //查询用户管辖区域
-        $areaInfo = BusinessManager::getManageArea($this->uid);
-        if(!in_array($this->addrId, $areaInfo)){
-            self::exception(self::INVALID_AREA);
-        }
+		if(!empty($this->addrId)){
+			//查询用户管辖区域
+			$areaInfo = BusinessManager::getManageArea($this->uid);
+			if(!in_array($this->addrId, $areaInfo)){
+				self::exception(self::INVALID_AREA);
+			}
+		}
         $param = [
             'userid' => $this->mId,
             'zjcom' =>  ZjCom::$zjcom,

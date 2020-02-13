@@ -79,8 +79,8 @@ class Controller extends BaseController
                 return true;
             }
         }
-
-        throw new NoPermissionException;
+		
+		throw new NoPermissionException;
     }
 
     public function checkMainAccount(){
