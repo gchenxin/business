@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class HouseController extends Controller
 {
     public static $apiAccess = [
-        1 => "getHouseFlow,getDayReport",
+        1 => "getHouseFlow,getDayReport,getHouseList",
         2 => 'update',
         4 => 'add',
         8 => 'delete'

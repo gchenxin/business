@@ -48,14 +48,20 @@ class BusinessManager extends Model
      * @param $pageSize
      * @return mixed
      */
-    public function getManagerList($pageSize){
+    public function getManagerList($pageSize, $mId = 0){
         $zjComId = ZjCom::$zjcom;
         $managerList = $this->join('member as m','m.id','bm.userid')
-            ->where(['bm.zjcom'=>$zjComId,'m.state'=>1])
-            ->select("m.nickname","m.username","m.phone","bm.addrid")
+			->where(['bm.zjcom'=>$zjComId,'m.state'=>1]);
+		if($mId){
+			$managerList = $managerList->where('bm.id', $mId);
+		}
+		$managerList = $managerList->select("bm.id","m.nickname","m.username","m.phone","bm.addrid", "bm.storeId")
             ->paginate($pageSize);
         foreach($managerList as &$value){
-            $value->manageArea = SiteArea::getFullNameById($value->addrid);
+			if($value->addrid)
+	            $value->manageArea = SiteArea::getFullNameById($value->addrid);
+			if($value->storeId)
+				$value->manageStoreList = Store::getStoreListByIds($value->storeId);
         }
         return $managerList;
     }

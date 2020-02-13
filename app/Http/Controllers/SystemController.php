@@ -32,10 +32,10 @@ class SystemController extends Controller
 //        $this->checkMainAccount();
     }
 
-    public function getManagerList(BusinessManager $managerModel){
+    public function getManagerList(BusinessManager $managerModel, $mId = 0){
         $pageSize = empty($this->pageSize) ? 10 : $this->pageSize;
         //查询区域内的管理员列表
-        return $managerModel->getManagerList($pageSize);
+        return $managerModel->getManagerList($pageSize, $mId);
     }
 
     public function getPrivList(Privilege $privModel){

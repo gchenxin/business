@@ -77,6 +77,13 @@ trait ModelTrait{
             $ModelName = "App\\Model\\" . $ModelName;
         }
         $model = app($ModelName);
-        return $model->where('id',$id)->first()->toArray();
+		$result = $model->where('id',$id)->first();
+		if($result){
+			$result = $result->toArray();
+		}else{
+			$result = [];
+		}
+		return $result;
     }
+
 }

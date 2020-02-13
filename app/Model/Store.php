@@ -27,6 +27,21 @@ class Store extends Model
             self::setAddrAndStore($storeList, ['s.addrid'=>$addrArr,'s.id'=>$stores]);
         }
         self::generateSearch($storeList, $keyword, ['s.name']);
-        return $storeList->select("s.id","s.name",'s.addrid','s.address', 'm.username','m.nickname')->paginate($pageSize)->toArray();
+		$list = $storeList->select("s.id","s.name",'s.addrid','s.address', 'm.username','m.nickname')->paginate($pageSize)->toArray();
+		foreach($list['data'] as &$value){
+			if($value['addrid']){
+				$value['addrName'] = SiteArea::getFullNameById($value['addrid']);
+			}
+		}
+		return $list;
     }
+
+	public static function getStoreListByIds($ids){
+		$ids = explode(',', trim($ids, ","));
+		$result = self::whereIn('id', $ids)->select("s.id", "s.name")->get();
+		if($result){
+			$result = $result->toArray();
+		}
+		return $result;
+	}
 }

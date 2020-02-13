@@ -44,7 +44,7 @@ class LoginRecord extends Model
     }
 
     public function checkKeepLogin($uid, $clientIp){
-        $loginInfo = $this->where(['userid' => $uid, 'loginIp' => $clientIp])->orderBy('loginTime', 'desc')->first();
+		$loginInfo = $this->where(['userid' => $uid, 'loginIp' => $clientIp])->orderBy('loginTime', 'desc')->first();
         if(!$loginInfo || $loginInfo->keepExpire < time()){
             throw new LoginTimeOutException;
         }else{
