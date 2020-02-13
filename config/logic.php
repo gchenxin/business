@@ -14,6 +14,8 @@ return [
         'http://www.gs.text:8081'
     ],
     'apiServerHostDebug' => 'http://test.fangruyu.net',
-    'apiServerHostRelease' => 'https://fruyu.com',
-
+	'apiServerHostRelease' => 'https://fruyu.com',
+	
+	//是否开启主账号权限强制限制
+	'mainAccountPrivMode' => 0,
 ];

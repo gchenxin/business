@@ -29,7 +29,9 @@ class SystemController extends Controller
     {
         parent::__construct($request);
         //代码级别的强行限制主账号权限
-//        $this->checkMainAccount();
+		$config = config('logic.mainAccountPrivMode');
+		if($config)
+			$this->checkMainAccount();
     }
 
     public function getManagerList(BusinessManager $managerModel, $mId = 0){
